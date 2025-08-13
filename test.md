@@ -34,16 +34,14 @@
 
 ## Overview
 
-We built a mini-enterprise environment and practiced **enumeration → web exploitation → container post-exploitation → host access** in a lab.\
-Milestones included:
-
-- **Milestone 1:** Lab setup & access verification
-- **Milestone 2:** Enumeration (Nmap, Gobuster, Burp Suite, wfuzz)
-- **Milestone 3:** Initial compromise in a Dockerized web server; research on escalation paths and host access approach
+This repository demonstrates a realistic attack simulation against a Docker-hosted web application within a segmented lab network. It walks through reconnaissance, exploitation, privilege escalation, hash cracking, and pivoting techniques
 
 ---
 
 ## Lab Topology
+### Network Diagram
+
+![Lab Network Topology](./images/NetworkDiagram.png)
 
 All nodes are on a flat lab network and, except Kali, are joined to Active Directory.
 
@@ -54,11 +52,13 @@ All nodes are on a flat lab network and, except Kali, are joined to Active Direc
 - **Linux (Docker host)** — Hosts the vulnerable web stack inside a container
 - **Kali (Attacker tools)** — Nmap, Gobuster, wfuzz, Burp Suite, local HTTP server, utilities
 
+
 ---
 
 ## Prerequisites
 
-- Docker installed on your local machine or lab server
+- Docker installed on your linux server
+- VMware, VirtualBox, Hyper-V
 - An account on [Docker Hub](https://hub.docker.com)
 - Internet connection to pull the image
 
@@ -91,12 +91,6 @@ docker ps
 ```bash
 docker stop holo-live2
 docker rm holo-live2
-```
-
-### 5. (Optional) Build the Image Locally
-
-```bash
-docker build -t imahamed/holo-live2:v1 .
 ```
 
 ---
@@ -331,10 +325,10 @@ date
 ## Cleanup & Reset
 
 ```bash
-docker stop holo-live2 || true
-docker rm holo-live2 || true
-docker image rm imahamed/holo-live2:v1 || true
-sudo rm -f /var/www/html/host_success.php || true
+docker stop holo-live2
+docker rm holo-live2 
+docker image rm imahamed/holo-live2:v1 
+sudo rm -f /var/www/html/host_success.php 
 ```
 
 ---
@@ -350,14 +344,14 @@ sudo rm -f /var/www/html/host_success.php || true
 ## Safety Notes
 
 - Replace IPs and credentials with your own lab values.
-- No malicious payloads were used. All actions are demonstrative and safe.
-- Methods shown here are not viable on patched, modern systems.
-
+- This project is conducted strictly within a closed, controlled virtual environment with no internet-facing components.
+- All tools and techniques are executed with full authorization in the lab.
 ---
 
 ## References
 
-- Internal lab milestone documentation
+- Replicated attack chain [`DEMONSTRATE EXPLOIT AIMING AT
+WINDOWS (ACTIVE DIRECTORY)`](https://www.theseus.fi/bitstream/handle/10024/860163/huyviet%20_le.pdf?sequence=2)
 - Tools used: Nmap, Gobuster, wfuzz, Burp Suite, LinPEAS
 - Docker image: [`imahamed/holo-live2`](https://hub.docker.com/r/imahamed/holo-live2)
 
